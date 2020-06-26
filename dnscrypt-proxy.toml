@@ -52,7 +52,7 @@ ignored_qtypes = ['DNSKEY', 'NS']
 format = 'tsv'
 #file = /dev/null'
 [blacklist]
-blacklist_file = 'blacklist.txt'
+blacklist_file = '/etc/dnscrypt-proxy/blacklist.txt'
 [ip_blacklist]
 #blacklist_file = 'ip-blacklist.txt'
 [whitelist]
