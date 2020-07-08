@@ -108,6 +108,8 @@ cp -r '/etc/nginx/streams' "${HOME}"
 systemctl stop nginx
 systemctl disable nginx
 
+rm --force --recursive '/etc/nginx'
+
 apt --assume-yes purge --auto-remove 'nginx*'
 
 make install
