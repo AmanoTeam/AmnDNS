@@ -4,7 +4,7 @@ apt --assume-yes update
 
 apt --assume-yes install build-essential curl
 
-nginx_version='1.19.0'
+nginx_version='1.19.1'
 pcre_version='8.44'
 zlib_version='1.2.11'
 openssl_version='1.1.1g'
