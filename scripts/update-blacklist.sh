@@ -2,10 +2,10 @@
 
 cd "$(mktemp -d)"
 
-curl --url 'https://block.energized.pro/unified/formats/hosts' \
-	--url 'https://block.energized.pro/extensions/xtreme/formats/hosts' \
-	--url 'https://block.energized.pro/extensions/regional/formats/hosts' \
-	--url 'https://block.energized.pro/extensions/social/formats/hosts' \
+curl --url 'https://block.energized.pro/extensions/regional/formats/unbound.conf' \
+	--url 'https://block.energized.pro/extensions/social/formats/unbound.conf' \
+	--url 'https://block.energized.pro/extensions/xtreme/formats/unbound.conf' \
+	--url 'https://block.energized.pro/unified/formats/unbound.conf' \
 	--request 'GET' \
 	--http2-prior-knowledge \
 	--silent \
@@ -13,13 +13,7 @@ curl --url 'https://block.energized.pro/unified/formats/hosts' \
 	--ipv4 \
 	--connect-timeout '25' \
 	--no-sessionid \
-	--no-keepalive >> 'hosts.txt'
-
-sed -ri '/(<|>)/d; s/\.\././g; s/\\//g' 'hosts.txt'
-
-awk '$1 == "0.0.0.0" { print "local-zone: \""$2"\" always_nxdomain" }' 'hosts.txt' > 'hosts.txt.new'
-
-awk 'NF && !seen[$0]++' 'hosts.txt.new' > '/etc/unbound/unbound.conf.d/blacklist.conf'
+	--no-keepalive | awk 'NF && !seen[$0]++' > '/etc/unbound/unbound.conf.d/blacklist.conf'
 
 systemctl restart unbound
 
