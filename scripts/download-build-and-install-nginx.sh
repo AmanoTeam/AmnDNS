@@ -1,23 +1,20 @@
 #!/bin/bash
 
-apt --assume-yes update
-
-apt --assume-yes install build-essential curl
-
-nginx_version='1.19.1'
+nginx_version='1.19.2'
 pcre_version='8.44'
 zlib_version='1.2.11'
-openssl_version='1.1.1g'
 
 nginx_file="${HOME}/nginx.tar.gz"
 pcre_file="${HOME}/pcre.tar.gz"
 zlib_file="${HOME}/zlib.tar.gz"
-openssl_file="${HOME}/openssl.tar.gz"
 
 nginx_dir="${HOME}/nginx-${nginx_version}"
 pcre_dir="${HOME}/pcre-${pcre_version}"
 zlib_dir="${HOME}/zlib-${zlib_version}"
-openssl_dir="${HOME}/openssl-${openssl_version}"
+boringssl_dir="${HOME}/quiche/deps/boringssl"
+quiche_dir="${HOME}/quiche"
+headers_more_dir="${HOME}/headers-more-nginx-module"
+http_proxy_connect_dir="${HOME}/http_proxy_connect"
 
 nginx_systemd="[Unit]\nDescription=A high performance web server and a reverse proxy server\nAfter=network.target\n\n[Service]\nType=forking\nPIDFile=/run/nginx.pid\nExecStartPre=/usr/sbin/nginx -t -q -g 'daemon on; master_process on;'\nExecStart=/usr/sbin/nginx -g 'daemon on; master_process on;'\nExecReload=/usr/sbin/nginx -g 'daemon on; master_process on;' -s reload\nExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid\nTimeoutStopSec=5\nKillMode=mixed\n\n[Install]\nWantedBy=multi-user.target"
 nginx_ufw='[Nginx HTTP]\ntitle=Web Server (Nginx, HTTP)\ndescription=Small, but very powerful and efficient web server\nports=80/tcp\n\n[Nginx HTTPS]\ntitle=Web Server (Nginx, HTTPS)\ndescription=Small, but very powerful and efficient web server\nports=443/tcp\n\n[Nginx Full]\ntitle=Web Server (Nginx, HTTP + HTTPS)\ndescription=Small, but very powerful and efficient web server\nports=80,443/tcp'
@@ -25,11 +22,9 @@ nginx_ufw='[Nginx HTTP]\ntitle=Web Server (Nginx, HTTP)\ndescription=Small, but 
 curl --url "https://nginx.org/download/nginx-${nginx_version}.tar.gz" \
     --url "https://ftp.pcre.org/pub/pcre/pcre-${pcre_version}.tar.gz" \
     --url "http://www.zlib.net/zlib-${zlib_version}.tar.gz" \
-    --url "https://www.openssl.org/source/openssl-${openssl_version}.tar.gz" \
     --output "${nginx_file}" \
     --output "${pcre_file}" \
     --output "${zlib_file}" \
-    --output "${openssl_file}" \
     --silent \
     --header 'User-Agent:' \
     --header 'Accept:' \
@@ -44,9 +39,26 @@ cd "${HOME}"
 tar --extract --file="${nginx_file}"
 tar --extract --file="${pcre_file}"
 tar --extract --file="${zlib_file}"
-tar --extract --file="${openssl_file}"
+
+git clone --recursive \
+    --branch 'master' \
+    'https://github.com/cloudflare/quiche' \
+    "${quiche_dir}"
+
+git clone --branch 'master' \
+     --depth '1' \
+    'https://github.com/openresty/headers-more-nginx-module' \
+    "${headers_more_dir}"
+
+git clone --branch 'master' \
+     --depth '1' \
+    'https://github.com/chobits/ngx_http_proxy_connect_module' \
+    "${http_proxy_connect_dir}"
 
 cd "${nginx_dir}"
+
+patch -p01 < "${quiche_dir}/extras/nginx/nginx-1.16.patch"
+patch -p1 < "${http_proxy_connect_dir}/patch/proxy_connect_rewrite_1018.patch"
 
 ./configure --prefix=/usr/share/nginx \
     --sbin-path=/usr/sbin/nginx \
@@ -58,17 +70,12 @@ cd "${nginx_dir}"
     --lock-path=/var/lock/nginx.lock \
     --user=www-data \
     --group=www-data \
-    --build="$(lsb_release -si)" \
+    --build="$(lsb_release -si) quiche-$(git --git-dir=${quiche_dir}/.git rev-parse --short HEAD)" \
     --http-client-body-temp-path=/var/lib/nginx/body \
     --http-fastcgi-temp-path=/var/lib/nginx/fastcgi \
     --http-proxy-temp-path=/var/lib/nginx/proxy \
     --http-scgi-temp-path=/var/lib/nginx/scgi \
     --http-uwsgi-temp-path=/var/lib/nginx/uwsgi \
-    --with-openssl="${openssl_dir}" \
-    --with-openssl-opt=enable-ec_nistp_64_gcc_128 \
-    --with-openssl-opt=no-nextprotoneg \
-    --with-openssl-opt=no-weak-ssl-ciphers \
-    --with-openssl-opt=no-ssl3 \
     --with-pcre="${pcre_dir}" \
     --with-pcre-jit \
     --with-zlib="${zlib_dir}" \
@@ -89,6 +96,7 @@ cd "${nginx_dir}"
     --with-http_sub_module \
     --with-http_stub_status_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --with-http_secure_link_module \
     --with-mail \
     --with-mail_ssl_module \
@@ -96,11 +104,14 @@ cd "${nginx_dir}"
     --with-stream_realip_module \
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
-    --with-debug \
+    --with-openssl="${boringssl_dir}" \
+    --with-quiche="${quiche_dir}" \
+    --add-module="${headers_more_dir}" \
+    --add-module="${http_proxy_connect_dir}" \
     --with-cc-opt='-g -O2 -fPIE -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' \
     --with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now'
 
-make
+make -j
 
 cp -r '/etc/nginx/sites-available' "${HOME}"
 cp -r '/etc/nginx/streams' "${HOME}"
@@ -139,7 +150,9 @@ systemctl start nginx.service
 rm --force --recursive "${nginx_dir}" \
     "${pcre_dir}" \
     "${zlib_dir}" \
-    "${openssl_dir}" \
+    "${quiche_dir}" \
+    "${headers_more_dir}" \
+    "${http_proxy_connect_dir}" \
     "${nginx_file}" \
     "${pcre_file}" \
     "${zlib_file}" \
