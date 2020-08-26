@@ -1,6 +1,6 @@
 server {
     
-    server_name doh-br.sphynx-dns.net;
+    server_name doh-ca.amanoteam.com;
     
     listen 80;
     listen [::]:80;
@@ -14,8 +14,8 @@ server {
     access_log off;
     error_log off;
     
-    ssl_certificate /etc/letsencrypt/live/doh-br.sphynx-dns.net/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/doh-br.sphynx-dns.net/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/doh-ca.amanoteam.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/doh-ca.amanoteam.com/privkey.pem;
     ssl_session_timeout 1d;
     ssl_session_cache shared:MozSSL:10m;
     ssl_session_tickets off;
@@ -29,7 +29,7 @@ server {
     ssl_stapling on;
     ssl_stapling_verify on;
     
-    ssl_trusted_certificate /etc/letsencrypt/live/doh-br.sphynx-dns.net/chain.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/doh-ca.amanoteam.com/chain.pem;
     
     location / {
     
