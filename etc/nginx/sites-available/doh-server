@@ -31,6 +31,10 @@ server {
     
     ssl_trusted_certificate /etc/letsencrypt/live/doh-ca.amanoteam.com/chain.pem;
     
+    more_set_headers "Content-Security-Policy: default-src 'none'; frame-ancestors 'none'";
+    more_set_headers 'Referrer-Policy: no-referrer';
+    more_set_headers 'X-Content-Type-Options: nosniff';
+    
     location / {
     
         proxy_set_header Host $host;
