@@ -7,12 +7,12 @@ AmnDNS is a free DNS service offered and maintained by [Amano Team](https://aman
 ### DNS-over-HTTPS
 
 * `https://doh-ca.amanoteam.com/dns-query` (`54.39.40.163`)
-* `sdns://AgMAAAAAAAAADDU0LjM5LjQwLjE2MwAUZG9oLWNhLmFtYW5vdGVhbS5jb20KL2Rucy1xdWVyeQ`
+* `sdns://AgMAAAAAAAAADDU0LjM5LjQwLjE2MyA-GhoPbFPz6XpJLVcIS1uYBwWe4FerFQWHb9g_2j24OBRkb2gtY2EuYW1hbm90ZWFtLmNvbQovZG5zLXF1ZXJ5DDU0LjM5LjQwLjE2Mw`
 
 ### DNS-over-TLS
 
 * `dot-ca.amanoteam.com:853` (`54.39.40.163`)
-* `sdns://AwMAAAAAAAAADDU0LjM5LjQwLjE2MwAUZG90LWNhLmFtYW5vdGVhbS5jb20`
+* `sdns://AwMAAAAAAAAADDU0LjM5LjQwLjE2MyA-GhoPbFPz6XpJLVcIS1uYBwWe4FerFQWHb9g_2j24OBRkb3QtY2EuYW1hbm90ZWFtLmNvbQw1NC4zOS40MC4xNjM`
 
 ### DNSCrypt v2
 
