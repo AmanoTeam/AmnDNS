@@ -42,32 +42,32 @@ We do not collect, store, use or share any information about queries or access t
 
 ## Third party software
 
-### The AmnDNS project exists thanks to these open source softwares:
+The AmnDNS project exists thanks to these open source softwares:
 
 - **Unbound**
- - Author: NLnetLabs ([NLnetLabs](https://github.com/NLnetLabs))
- - Repository: [NLnetLabs/unbound](https://github.com/NLnetLabs/unbound)
- - License: [BSD-3-Clause License](https://github.com/m13253/dns-over-https/blob/master/LICENSE)
+  - Author: NLnetLabs ([NLnetLabs](https://github.com/NLnetLabs))
+  - Repository: [NLnetLabs/unbound](https://github.com/NLnetLabs/unbound)
+  - License: [BSD-3-Clause License](https://github.com/m13253/dns-over-https/blob/master/LICENSE)
 
 - **DNS-over-HTTPS**
- - Author: Star Brilliant ([m13253](https://github.com/m13253))
- - Repository: [m13253/dns-over-https](https://github.com/m13253/dns-over-https)
- - License: [MIT License](https://github.com/NLnetLabs/unbound/blob/master/LICENSE)
+  - Author: Star Brilliant ([m13253](https://github.com/m13253))
+  - Repository: [m13253/dns-over-https](https://github.com/m13253/dns-over-https)
+  - License: [MIT License](https://github.com/NLnetLabs/unbound/blob/master/LICENSE)
 
 - **Energized Protection**
- - Author: Ador ([AdroitAdorKhan](https://github.com/AdroitAdorKhan))
- - Repository: [EnergizedProtection/block](https://github.com/EnergizedProtection/block)
- - License: [MIT License](https://github.com/EnergizedProtection/block/blob/master/LICENSE)
+  - Author: Ador ([AdroitAdorKhan](https://github.com/AdroitAdorKhan))
+  - Repository: [EnergizedProtection/block](https://github.com/EnergizedProtection/block)
+  - License: [MIT License](https://github.com/EnergizedProtection/block/blob/master/LICENSE)
 
 - **Nginx**
- - Author: nginx ([nginx](https://github.com/nginx))
- - Repository: [nginx/nginx](https://github.com/nginx/nginx)
- - License: [2-clause BSD](https://opensource.org/licenses/BSD-2-Clause)
+  - Author: nginx ([nginx](https://github.com/nginx))
+  - Repository: [nginx/nginx](https://github.com/nginx/nginx)
+  - License: [2-clause BSD](https://opensource.org/licenses/BSD-2-Clause)
 
 - **Encrypted DNS Server**
- - Author: Frank Denis ([jedisct1](https://github.com/jedisct1))
- - Repository: [jedisct1/encrypted-dns-server](https://github.com/jedisct1/encrypted-dns-server)
- - License: [MIT License](https://github.com/jedisct1/encrypted-dns-server/blob/master/LICENSE)
+  - Author: Frank Denis ([jedisct1](https://github.com/jedisct1))
+  - Repository: [jedisct1/encrypted-dns-server](https://github.com/jedisct1/encrypted-dns-server)
+  - License: [MIT License](https://github.com/jedisct1/encrypted-dns-server/blob/master/LICENSE)
 
 ## Contact
 
