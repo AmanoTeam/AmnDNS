@@ -5,8 +5,6 @@ StartLimitIntervalSec=0
 
 [Service]
 Type=simple
-Restart=always
-RestartSec=1
 User=snwmds
 ExecStart=/home/snwmds/.cargo/bin/encrypted-dns --config '/etc/encrypted-dns-server/encrypted-dns.toml'
 
