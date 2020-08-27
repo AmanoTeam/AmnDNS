@@ -6,6 +6,7 @@ curl --url 'https://block.energized.pro/extensions/regional/formats/unbound.conf
 	--url 'https://block.energized.pro/extensions/social/formats/unbound.conf' \
 	--url 'https://block.energized.pro/extensions/xtreme/formats/unbound.conf' \
 	--url 'https://block.energized.pro/unified/formats/unbound.conf' \
+	--url 'https://raw.githubusercontent.com/AmanoTeam/AmnDNS/master/etc/unbound/unbound.conf.d/blacklist.conf' \
 	--request 'GET' \
 	--http2-prior-knowledge \
 	--silent \
@@ -13,8 +14,12 @@ curl --url 'https://block.energized.pro/extensions/regional/formats/unbound.conf
 	--ipv4 \
 	--connect-timeout '25' \
 	--no-sessionid \
-	--no-keepalive | awk 'NF && !seen[$0]++' > '/etc/unbound/unbound.conf.d/blacklist.conf'
+	--no-keepalive | awk 'NF && !seen[$0]++' > 'blacklist.conf'
 
-systemctl restart unbound
+unbound-checkconf 'blacklist.conf'
+
+if [ "${?}" = '0' ]; then
+	mv 'blacklist.conf' '/etc/unbound/unbound.conf.d/blacklist.conf'
+	systemctl restart unbound
 
 exit '0'
