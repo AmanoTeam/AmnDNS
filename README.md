@@ -4,6 +4,14 @@ AmnDNS is a free DNS service offered and maintained by [Amano Team](https://aman
 
 ## Servers
 
+* DNS services are hosted in Canada. The provider we currently use is OVH.
+* We use Nginx as a reverse proxy for DoH and DoT services.
+* The DoH server we use is [m13253/dns-over-https](https://github.com/m13253/dns-over-https).
+* The DNSCrypt server we use is [jedisct1/encrypted-dns-server](https://github.com/jedisct1/encrypted-dns-server).
+* DoH and DoT server certificates were issued by Let's Encrypt and support TLS 1.2 and TLS 1.3.
+* The DoH server supports HTTP/2 and HTTP/3 (with [Quiche](https://github.com/cloudflare/quiche)).
+* All DNS queries are answered by [Unbound](https://github.com/NLnetLabs/unbound).
+
 ### DNS-over-HTTPS
 
 * `https://doh-ca.amanoteam.com/dns-query` (`54.39.40.163`)
@@ -31,10 +39,11 @@ We use the following host lists for content blocking:
 * `https://block.energized.pro/extensions/xtreme/formats/unbound.conf`
 * `https://block.energized.pro/extensions/regional/formats/unbound.conf`
 * `https://block.energized.pro/extensions/social/formats/unbound.conf`
+* `https://raw.githubusercontent.com/AmanoTeam/AmnDNS/master/etc/unbound/unbound.conf.d/blacklist.conf`
 
 Note that, unlike other DNS services that focus only on filtering content related to ads, analytics and malware, we also block content related to social media (e.g. Facebook, Twitter) and pornography.
 
-The main purpose of this project is to offer a slightly more secure internet. If you don't want anything but ads, analytics and malware to be blocked, don't use AmnDNS. It will most likely break your favorite app or website.
+If you don't want anything but ads, analytics and malware to be blocked, don't use AmnDNS. It will most likely break your favorite app or website.
 
 ## Privacy
 
