@@ -1,0 +1,14 @@
+[Unit]
+Description=Unbound service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=unbound
+ExecStart=/usr/sbin/unbound -c '/etc/unbound/unbound.conf' -d
+
+[Install]
+WantedBy=multi-user.target
