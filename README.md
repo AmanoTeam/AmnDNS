@@ -4,6 +4,10 @@ AmnDNS is a free DNS service offered and maintained by [Amano Team](https://aman
 
 ## Servers
 
+Before using any of our services, please read our [privacy policy](#privacy). It describes how your data is treated when it is received by our server.
+
+Also, see below for some technical information on how the provided DNS services work.
+
 * DNS services are hosted in Canada. The provider we currently use is OVH.
 * We use Nginx as a reverse proxy for DoH and DoT services.
 * The DoH server we use is [m13253/dns-over-https](https://github.com/m13253/dns-over-https).
@@ -11,6 +15,7 @@ AmnDNS is a free DNS service offered and maintained by [Amano Team](https://aman
 * DoH and DoT server certificates were issued by Let's Encrypt and support TLS 1.2 and TLS 1.3.
 * The DoH server supports HTTP/2 and HTTP/3 (with [Quiche](https://github.com/cloudflare/quiche)).
 * All DNS queries are answered by [Unbound](https://github.com/NLnetLabs/unbound).
+* All DNS queries support DNSSEC and QNAME minimization.
 
 ### DNS-over-HTTPS
 
