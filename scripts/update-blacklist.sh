@@ -3,7 +3,6 @@
 cd "$(mktemp -d)"
 
 curl --url 'https://block.energized.pro/extensions/regional/formats/unbound.conf' \
-	--url 'https://block.energized.pro/extensions/social/formats/unbound.conf' \
 	--url 'https://block.energized.pro/extensions/xtreme/formats/unbound.conf' \
 	--url 'https://block.energized.pro/unified/formats/unbound.conf' \
 	--url 'https://raw.githubusercontent.com/AmanoTeam/AmnDNS/master/etc/unbound/unbound.conf.d/blacklist.conf' \

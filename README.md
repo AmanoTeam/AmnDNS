@@ -43,7 +43,6 @@ We use the following host lists for content blocking:
 * `https://block.energized.pro/unified/formats/unbound.conf`
 * `https://block.energized.pro/extensions/xtreme/formats/unbound.conf`
 * `https://block.energized.pro/extensions/regional/formats/unbound.conf`
-* `https://block.energized.pro/extensions/social/formats/unbound.conf`
 * `https://raw.githubusercontent.com/AmanoTeam/AmnDNS/master/etc/unbound/unbound.conf.d/blacklist.conf`
 
 Note that, unlike other DNS services that focus only on filtering content related to ads, analytics and malware, we also block content related to social media (e.g. Facebook, Twitter) and pornography.
