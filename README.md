@@ -53,6 +53,12 @@ If you don't want anything but ads, analytics and malware to be blocked, don't u
 
 We do not collect, store, use or share any information about queries or access to our servers.
 
+## "Bypassing" Cloudflare
+
+We use the data collected by [this](http://www.crimeflare.org:82/cfs.html) public research project to obtain the origin server IP address of some sites that currently use Cloudflare.
+
+When a user performs a DNS query for a domain that is on our list of known IPs, we return the actual IP address that the domain is pointing to, not the IP address provided by Cloudflare. The purpose of this is to decrease the amount of information that is transmitted to Cloudflare when accessing any website that is currently using this service.
+
 ## Third party software
 
 The AmnDNS project exists thanks to these open source softwares:

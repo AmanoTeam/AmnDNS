@@ -1,5 +1,8 @@
 #!/bin/bash
 
+CA_FILE='/home/snwmds/AmnDNS/certs/ca-bundle.crt'
+CA_PATH='/home/snwmds/AmnDNS/certs'
+
 cd "$(mktemp -d)"
 
 curl --url 'https://block.energized.pro/extensions/regional/formats/unbound.conf' \
@@ -9,9 +12,14 @@ curl --url 'https://block.energized.pro/extensions/regional/formats/unbound.conf
 	--silent \
 	--doh-url 'https://1.0.0.1/dns-query' \
 	--ipv4 \
-	--connect-timeout '25' \
+	--connect-timeout '8' \
 	--no-sessionid \
 	--no-keepalive \
+	--capath "${CA_PATH}" \
+	--cacert "${CA_FILE}" \
+	--cert-type 'PEM' \
+	--header 'User-Agent:' \
+	--header 'Accept:' \
 	| awk 'NF && !seen[$0]++' \
 	| sed -r '/(<|>|\t|#|\}|\)|;)/d; s/\\//g' \
 	| sed -r 's/\.{2,}/./g; s/" static/" always_nxdomain/g' \
@@ -24,10 +32,8 @@ unbound-checkconf '/etc/unbound/unbound.conf'
 
 if [ "${?}" = '0' ]; then
 	systemctl restart unbound
-	echo "done"
 else
 	mv 'blacklist.conf.backup' '/etc/unbound/unbound.conf.d/blacklist.conf'
-	echo "error"
 fi
 
 exit '0'
