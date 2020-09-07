@@ -2,11 +2,11 @@ server {
     
     server_name doh-ca.amanoteam.com;
     
-    listen 443 ssl;
-    listen [::]:443 ssl;
+    listen 443 ssl reuseport;
+    listen [::]:443 ssl ipv6only=on reuseport;
     
-    listen 443 http2;
-    listen [::]:443 http2;
+    listen 443 http2 reuseport;
+    listen [::]:443 http2 ipv6only=on reuseport;
     
     access_log off;
     error_log off;
@@ -58,7 +58,7 @@ server {
         return 200 "User-agent: *\nDisallow: /\n";
     }
     
-    resolver 0.0.0.0;
+    resolver 0.0.0.0:53 valid=5s;
     resolver_timeout 5s;
 
     client_max_body_size 500k;
@@ -70,7 +70,7 @@ server {
     server_name doh-ca.amanoteam.com;
     
     listen 80;
-    listen [::]:80;
+    listen [::]:80 ipv6only=on;
     
     return 301 https://$host$request_uri;
     
