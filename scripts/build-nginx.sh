@@ -10,7 +10,7 @@ nginx_file="${temp_dir}/nginx.tar.gz"
 pcre_file="${temp_dir}/pcre.tar.gz"
 zlib_file="${temp_dir}/zlib.tar.gz"
 
-nginx_dir="${temp_dir}/nginx"
+nginx_dir="${temp_dir}/nginx-${nginx_version}"
 pcre_dir="${temp_dir}/pcre-${pcre_version}"
 zlib_dir="${temp_dir}/zlib-${zlib_version}"
 openssl_dir="${temp_dir}/openssl"
@@ -125,6 +125,7 @@ cd "${nginx_dir}"
     --with-stream_realip_module \
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
+    --add-module="${headers_more_dir}" \
     --with-cc-opt='-g -O2 -fPIE -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2' \
     --with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now' || exit '1'
 
